@@ -14,7 +14,7 @@ function App() {
       </header>
       { username ?
         <Main username={username} /> :
-        <EntryPage />
+        <EntryPage username={username} />
       }
     </div>
   );
