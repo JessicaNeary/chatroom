@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import socket from '../socket';
 import Room from './Room';
-import { createRoom, joinRoom } from '../actions';
+import { joinRoomRequest, joinRoomSuccess } from '../actions';
+import { createRoom } from '../actions';
 
 const Main = ({ username }) => {
     const room = useSelector(state => state.room);
@@ -22,6 +24,11 @@ const Home = ({ username }) => {
     const dispatch = useDispatch();
     const [ roomName, setRoomName ] = useState("");
     const [ roomId, setRoomId ] = useState("");
+    useEffect(() => {
+        socket.on('get-room', payload => {
+            dispatch(joinRoomSuccess(payload))
+        });
+    });
     const handleNameChange = (e) => {
         setRoomName(e.target.value);
     }    
@@ -32,8 +39,9 @@ const Home = ({ username }) => {
         dispatch(createRoom(roomName, username))
     }    
     const submitJoin = () => {
-        dispatch(joinRoom(roomId, username))
-    }
+        socket.emit('join-room', { roomId, username });
+        dispatch(joinRoomRequest())
+    };
     return (
         <div>
             <div>
