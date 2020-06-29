@@ -13,6 +13,9 @@ export const JOIN_ROOM_FAILURE = "JOIN_ROOM_FAILURE";
 
 export const SET_USERNAME = "SET_USERNAME"
 
+export const GET_MESSAGE = "GET_MESSAGE";
+export const SEND_MESSAGE = "SEND_MESSAGE";
+
 export const createRoomRequest = () => {
     return {
         type: CREATE_ROOM_REQUEST
@@ -72,6 +75,26 @@ export function setUsername(username){
         payload: {
             name: username,
             id: uuid()
+        }
+    }
+}
+
+export function getMessage({ roomId, message }) {
+    return {
+        type: GET_MESSAGE,
+        payload: {
+            roomId,
+            message
+        }
+    }
+}
+
+export function sendMessage(roomId, message) {
+    return {
+        type: SEND_MESSAGE,
+        payload: {
+            roomId,
+            message
         }
     }
 }
