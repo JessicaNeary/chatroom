@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { setUsername } from '../actions';
 import { useDispatch } from 'react-redux';
 
-const EntryPage = (addUser) => {
+const EntryPage = () => {
     const [username, setUsernameInput] = useState("");
     const dispatch = useDispatch();
 
