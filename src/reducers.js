@@ -1,8 +1,7 @@
-import { CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, JOIN_ROOM_REQUEST, JOIN_ROOM_SUCCESS, JOIN_ROOM_FAILURE, SET_USERNAME } from "./actions";
+import { GET_MESSAGE, CREATE_ROOM_REQUEST, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAILURE, JOIN_ROOM_REQUEST, JOIN_ROOM_SUCCESS, JOIN_ROOM_FAILURE, SET_USERNAME } from "./actions";
 
 const INITIAL_STATE = {
     room: null,
-    chatLog: [],
     user: {
         name: "",
         id: ""
@@ -59,7 +58,15 @@ const chatReducer = (state = INITIAL_STATE, actions ) => {
                 user: actions.payload
             }
         }
-        default: return INITIAL_STATE;
+        case(GET_MESSAGE): {
+            const room = {...state.room};
+            room.chatLog.push(actions.payload.message)
+            return {
+                ...state,
+                room
+            }
+        }
+        default: return state;
     }
 }
 

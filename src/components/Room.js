@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import socket from '../socket';
 
+import Chat from './Chat';
+
 const Room = ({ room, user }) => {
     useEffect(() => {
         window.addEventListener('beforeunload', leaveRoom);
@@ -20,6 +22,7 @@ const Room = ({ room, user }) => {
                     ))}
                 </ul>
             </div>
+            <Chat room={room} user={user} />
         </div>
     )
 }

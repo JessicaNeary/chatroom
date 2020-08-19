@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import socket from '../socket';
 import Room from './Room';
 import Home from './Home';
-import { joinRoomSuccess } from '../actions';
+import { joinRoomSuccess, getMessage } from '../actions';
 
 
 const Main = ({ user }) => {
@@ -14,10 +14,12 @@ const Main = ({ user }) => {
    
     useEffect(() => {
         socket.on('get-room', payload => {
-            console.log('getting room', payload)
             dispatch(joinRoomSuccess(payload))
         });
-    });
+        socket.on('get-message', payload => {
+            dispatch(getMessage(payload));
+        })
+    }, []);
     return (
         <div>
         <h5>Hi {user.name}!</h5>
