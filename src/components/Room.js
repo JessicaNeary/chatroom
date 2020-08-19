@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import socket from '../socket';
 
-import Chat from './Chat';
-
 const Room = ({ room, user }) => {
     useEffect(() => {
         window.addEventListener('beforeunload', leaveRoom);
@@ -11,18 +9,17 @@ const Room = ({ room, user }) => {
         socket.emit('leave-room', { roomId: room.id, userId: user.id })
     }
     return (
-        <div>
-            <h6>{room.name}</h6>
-            <button onClick={leaveRoom}>Leave room</button>
+        <div className="col-4 sidebar border-left">
+            <div className="pt-3">{user.name}</div>
             <div>
-                <p>Online:</p>
-                <ul>
+                <div className="card-subtitle">{room.name}</div>
+                <ul className="nav flex-column">
                     {Object.values(room.users).map(({ name, id }) => (
                         <li key={id}>{name}</li>
                     ))}
                 </ul>
+                <button className="btn align-right" onClick={leaveRoom}>Leave room</button>
             </div>
-            <Chat room={room} user={user} />
         </div>
     )
 }

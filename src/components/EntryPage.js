@@ -1,25 +1,15 @@
-import React, { useState } from 'react';
-import { setUsername } from '../actions';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import UsernameInput from './UsernameInput';
+import JoinRoom from './JoinRoom';
 
-const EntryPage = () => {
-    const [username, setUsernameInput] = useState("");
-    const dispatch = useDispatch();
-
-    const handleInput = (e) => {
-        setUsernameInput(e.target.value);
-    };
-
-    const handleSubmit = () => {
-        dispatch(setUsername(username));
-    }
-
-    return (
-        <div>
-            <input type="text" value={username} placeholder="Enter your username" onChange={handleInput} />
-            <button type="submit" onClick={handleSubmit}>Enter</button>
-        </div>
-    );
-}
+const EntryPage = ({ user }) => (
+    <div className="m-auto w-25">
+        {
+            !user.name ?
+            <UsernameInput /> :
+            <JoinRoom user={user} />
+        }
+    </div>
+);
 
 export default EntryPage;

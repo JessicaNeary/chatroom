@@ -32,3 +32,26 @@
     transform: rotate(360deg);
   }
 }
+
+.app {
+  height: calc(100vh - 100px);
+  margin: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  z-index: 100;
+}
+
+li {
+  display: block;
+}
+
+.fill {
+  height: 100%;
+}
+
+.btn.focus, .btn:focus {
+  box-shadow: none;
+}
