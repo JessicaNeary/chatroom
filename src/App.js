@@ -5,16 +5,16 @@ import Main from "./components/Main";
 import EntryPage from "./components/EntryPage";
 
 function App() {
-  const username = useSelector(state => state.username);
+  const user = useSelector(state => state.user);
   
   return (
     <div className="App">
       <header className="App-header">
         <h1>Chatroom</h1>
       </header>
-      { username ?
-        <Main username={username} /> :
-        <EntryPage username={username} />
+      { user.name ?
+        <Main user={user} /> :
+        <EntryPage />
       }
     </div>
   );

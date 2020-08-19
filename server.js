@@ -25,8 +25,7 @@ let chatLog = {};
 
 app.post('/rooms', (req, res) => {
     const newUser = {
-        id: uuid(),
-        name: req.body.name,
+        ...req.body,
         admin: true
     }
     const newRoom = {
@@ -40,7 +39,7 @@ app.post('/rooms', (req, res) => {
     rooms[newRoom.id] = newRoom;
     chatLog[newRoom.id] = [];
 
-    res.json(newRoom);
+    res.json({ room: newRoom, userId: newUser.id });
 })
 
 // app.post('/room/:id', (req, res) => {
@@ -55,21 +54,25 @@ app.post('/rooms', (req, res) => {
 // });
 
 io.on('connection', (socket) => {
-    socket.on('join-room', (data) => {
-      const room = rooms[data.roomId]
-
+    socket.on('join-room', ({roomId, user}) => {
+      const room = rooms[roomId]
       const newUser = {
-        id: uuid(),
-        name: data.username,
+        ...user,
         admin: false
     }
       room.users[newUser.id] = newUser
       const response = {
-          ...room,
-          chats: chatLog[data.roomId]
+          room,
+          chats: chatLog[roomId],
+          userId: newUser.id
       }
-      socket.emit('get-room', response);
+      io.sockets.emit('get-room', response);
     });
+
+    socket.on('leave-room', ({ roomId, userId }) => {
+        delete rooms[roomId].users[userId]
+        io.sockets.emit('get-room', { room: rooms[roomId]});
+    })
   });
 
 http.listen(PORT, () => {
