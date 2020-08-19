@@ -55,3 +55,8 @@ li {
 .btn.focus, .btn:focus {
   box-shadow: none;
 }
+
+.leave-btn {
+  font-size: 0.8rem;
+  font-weight: 500;
+}

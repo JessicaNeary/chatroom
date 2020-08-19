@@ -23,7 +23,7 @@ const Chat = ({ room, user }) => {
     }
     return (
         <div className="col-8 bg-white d-flex flex-column justify-content-between">
-            <div>
+            <div className="py-4">
                 {room.chatLog.map(message => (
                     <div key={message.id}>
                         <strong>{message.user.name}: </strong>
