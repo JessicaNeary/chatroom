@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Room from './Room';
 import { createRoom, joinRoom } from '../actions';
 
 const Main = ({ username }) => {
@@ -9,15 +10,15 @@ const Main = ({ username }) => {
         <div>
         <h5>Hi {username}!</h5>
         { room ? 
-            <div>{room.name}</div> :
-            <Home />
+            <Room room={room} /> :
+            <Home username={username} />
         }
         </div>
     );
 };
 
 
-const Home = () => {
+const Home = ({ username }) => {
     const dispatch = useDispatch();
     const [ roomName, setRoomName ] = useState("");
     const [ roomId, setRoomId ] = useState("");
@@ -28,10 +29,10 @@ const Home = () => {
         setRoomId(e.target.value);
     }
     const submitCreate = () => {
-        dispatch(createRoom(roomName))
+        dispatch(createRoom(roomName, username))
     }    
     const submitJoin = () => {
-        dispatch(joinRoom(roomId))
+        dispatch(joinRoom(roomId, username))
     }
     return (
         <div>
