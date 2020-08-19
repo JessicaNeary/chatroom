@@ -20,7 +20,7 @@ const JoinRoom = ({ user }) => {
         setRoomName("");
     }
     const handleEnter = () => {
-        if (roomName !== "") {
+        if (roomName) {
             submitCreate();
         } else submitJoin();
     }

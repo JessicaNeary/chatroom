@@ -11,13 +11,15 @@ const Chat = ({ room, user }) => {
         setInput(e.target.value);
     };
     const send = () => {
-        const message = {
-            user,
-            text: input
+        if (input) {
+            const message = {
+                user,
+                text: input
+            }
+            socket.emit('send-message',  { roomId: room.id, message });
+            dispatch(sendMessage(room.id, message))
+            setInput("");
         }
-        socket.emit('send-message',  { roomId: room.id, message });
-        dispatch(sendMessage(room.id, message))
-        setInput("");
     }
     return (
         <div className="col-8 bg-white d-flex flex-column justify-content-between">
