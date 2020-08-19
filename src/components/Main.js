@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import socket from '../socket';
 import Room from './Room';
-import Home from './Home';
-import { joinRoomSuccess, getMessage } from '../actions';
+import Chat from './Chat';
+import { getMessage } from '../actions';
 
 
 const Main = ({ user }) => {
@@ -13,21 +13,15 @@ const Main = ({ user }) => {
     const dispatch = useDispatch();
    
     useEffect(() => {
-        socket.on('get-room', payload => {
-            dispatch(joinRoomSuccess(payload))
-        });
         socket.on('get-message', payload => {
             dispatch(getMessage(payload));
         })
     }, []);
     return (
-        <div>
-        <h5>Hi {user.name}!</h5>
-        { room ? 
-            <Room room={room} user={user} /> :
-            <Home user={user} />
-        }
-        </div>
+            <div className="d-flex h-100">
+                <Chat room={room} user={user} />
+                <Room room={room} user={user} />
+            </div>
     );
 };
 
