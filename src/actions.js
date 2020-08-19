@@ -1,6 +1,8 @@
 import axios from 'axios';
 import uuid from 'uuid-v4';
 
+import socket from "./socket";
+
 const API_BASE = "http://localhost:3040";
 
 export const CREATE_ROOM_REQUEST = "CREATE_ROOM_REQUEST";
@@ -36,12 +38,7 @@ export const createRoomFailure = error => {
 export const createRoom = (roomName, username) => {
     return async (dispatch) => {
         dispatch(createRoomRequest());
-        const user = {
-            id: uuid(),
-            name: username,
-            admin: true
-        }
-        axios.post(`${API_BASE}/rooms?name=${roomName}`, user)
+        axios.post(`${API_BASE}/rooms?name=${roomName}`, {name: username})
             .then(response => {
                 dispatch(createRoomSuccess(response.data));
             })
@@ -70,25 +67,6 @@ export const joinRoomFailure = error => {
         error
     }
 };
-
-export const joinRoom = (roomId, username) => {
-    return async (dispatch) => {
-        console.log('username:', username)
-        dispatch(joinRoomRequest());
-        const user = {
-            id: uuid(),
-            name: username,
-            admin: false
-        }
-        axios.post(`${API_BASE}/room/${roomId}`, user)
-            .then(response => {
-                dispatch(joinRoomSuccess(response.data));
-            })
-            .catch(err => {
-                dispatch(joinRoomFailure(err))
-            });
-    }
-}
 
 export function setUsername(username){
     return {

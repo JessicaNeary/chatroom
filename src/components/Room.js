@@ -7,7 +7,7 @@ const Room = ({ room }) => {
             <div>
                 <p>Online:</p>
                 <ul>
-                    {room.users.map(({ name, id }) => (
+                    {Object.values(room.users).map(({ name, id }) => (
                         <li key={id}>{name}</li>
                     ))}
                 </ul>
