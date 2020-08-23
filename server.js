@@ -19,6 +19,7 @@ let rooms = {
         users: {
             3: { name: "Tom", id: 3, admin: true }
         },
+        admin: 3,
         chatLog: []
     }
 };
@@ -34,6 +35,7 @@ app.post('/rooms', (req, res) => {
         users: {
             [newUser.id]: newUser,
         },
+        admin: newUser.id,
         chatLog: [],
     };
     
@@ -76,17 +78,23 @@ io.on('connection', (socket) => {
     });
 
     socket.on('leave-room', ({ roomId, userId }) => {
-        delete rooms[roomId].users[userId]
-        io.sockets.emit('get-room', { room: rooms[roomId]});
+        if (rooms[roomId]) {
+            delete rooms[roomId].users[userId]
+            io.sockets.emit('get-room', { room: rooms[roomId]});
+        }
     })
 
     socket.on('send-message', ({ roomId, message }) => {
         const newMessage = {
             ...message,
+            user: {
+                ...message.user,
+                admin: rooms[roomId].admin === message.user.id
+            },
             id: uuid()
         }
         rooms[roomId].chatLog.push(newMessage);
-        console.log(rooms[roomId])
+        console.log(rooms[roomId].chatLog)
         io.sockets.emit('get-message', {roomId, message});
     })
   });
