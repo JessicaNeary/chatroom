@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useAlert } from 'react-alert';
 import './App.css';
 
 import socket from './socket';
@@ -8,6 +9,8 @@ import Main from "./components/Main";
 import EntryPage from './components/EntryPage';
 
 function App() {
+  const alert = useAlert();
+
   const user = useSelector(state => state.user);
   const room = useSelector(state => state.room);
 
@@ -17,6 +20,15 @@ function App() {
     socket.on('get-room', payload => {
         dispatch(joinRoomSuccess(payload))
     });
+    socket.on('room-not-found', () => {
+      alert.info('Room not found');
+    })
+    socket.on('connect-failed', () => {
+      alert.info('Connection failed')
+    })    
+    socket.on('error', () => {
+      alert.info('Sorry, we seem to be having some trouble with that')
+    })
 }, []);
 
   return (

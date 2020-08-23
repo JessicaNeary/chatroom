@@ -56,16 +56,23 @@ app.post('/rooms', (req, res) => {
 io.on('connection', (socket) => {
     socket.on('join-room', ({roomId, user}) => {
       const room = rooms[roomId]
-      const newUser = {
-        ...user,
-        admin: false
-    }
-      room.users[newUser.id] = newUser
-      const response = {
-          room,
-          userId: newUser.id
+      if (!room) {
+          socket.emit('room-not-found');
+          console.log('room not found')
       }
-      io.sockets.emit('get-room', response);
+      else {
+        const newUser = {
+            ...user,
+            admin: false
+        }
+        room.users[newUser.id] = newUser
+        const response = {
+            room,
+            userId: newUser.id
+        }
+        console.log(room)
+        io.sockets.emit('get-room', response);
+      }
     });
 
     socket.on('leave-room', ({ roomId, userId }) => {
