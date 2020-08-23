@@ -60,3 +60,20 @@ li {
   font-size: 0.8rem;
   font-weight: 500;
 }
+
+.message-log {
+  overflow-y: auto;
+  margin-right: -15px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  border-radius: 15px;
+}
+
+.bg-purple {
+  background-color: #885ea0;
+}
