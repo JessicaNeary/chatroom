@@ -40,7 +40,10 @@ const Chat = ({ room, user }) => {
                         </div> :
                         <div className="d-flex m-1" key={message.id}>
                             <div className="align-self-end mr-2">
-                                <strong>{message.user.name}</strong>:
+                                <strong>{message.user.name}</strong>
+                                {message.user.admin && 
+                                    <img className="mx-1 mb-1" src="/icons/person-badge-fill.svg" alt="" width="16" height="16" />
+                                }:
                             </div>
                             <div className={bubbleClasses(message.user.admin)}>{message.text}</div>
                         </div>

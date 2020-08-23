@@ -95,7 +95,7 @@ io.on('connection', (socket) => {
         }
         rooms[roomId].chatLog.push(newMessage);
         console.log(rooms[roomId].chatLog)
-        io.sockets.emit('get-message', {roomId, message});
+        io.sockets.emit('get-message', {roomId, message: newMessage});
     })
   });
 
